@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardAction,
@@ -13,6 +13,9 @@ import { Button } from "./ui/button";
 import { PulseLoader } from "react-spinners";
 import Error from "./error";
 import * as Yup from "yup";
+import { login } from "@/utils/apiAuth";
+import useFetch from "@/hooks/use-fetch";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Login = () => {
   const [errors, setErrors] = useState([]);
@@ -21,6 +24,10 @@ const Login = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+  let [searchParams] = useSearchParams();
+  const longLink = searchParams.get("createNew");
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -28,6 +35,15 @@ const Login = () => {
       [name]: value,
     }));
   };
+
+  const { data, loading, error, fn: fnLogin } = useFetch(login, formData);
+
+  useEffect(() => {
+    console.log(data);
+    if (error === null && data) {
+      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
+    }
+  }, [data, error]);
 
   const handleLogin = async () => {
     setErrors([]);
@@ -42,6 +58,8 @@ const Login = () => {
       });
 
       await schema.validate(formData, { abortEarly: false });
+
+      await fnLogin();
     } catch (e) {
       const newErrors = {};
       e?.inner?.forEach((err) => {
@@ -59,7 +77,7 @@ const Login = () => {
         <CardDescription>
           to your account if you already have one
         </CardDescription>
-        <Error message={"some error"} />
+        {error && <Error message={error.message} />}
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
@@ -83,7 +101,7 @@ const Login = () => {
       </CardContent>
       <CardFooter>
         <Button onClick={handleLogin}>
-          {true ? <PulseLoader size={10} color="#e9ebf0" /> : "Login"}
+          {loading ? <PulseLoader size={10} color="#e9ebf0" /> : "Login"}
         </Button>
       </CardFooter>
     </Card>
