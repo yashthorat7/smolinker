@@ -1,7 +1,93 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { PulseLoader } from "react-spinners";
+import Error from "./error";
+import * as Yup from "yup";
 
 const Login = () => {
-  return <div>Login</div>;
+  const [errors, setErrors] = useState([]);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async () => {
+    setErrors([]);
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .email("Invalid Email")
+          .required("Email is Required"),
+        password: Yup.string()
+          .min(6, "Password must be at least 6 characters")
+          .required("Password is Required"),
+      });
+
+      await schema.validate(formData, { abortEarly: false });
+    } catch (e) {
+      const newErrors = {};
+      e?.inner?.forEach((err) => {
+        newErrors[err.path] = err.message;
+      });
+
+      setErrors(newErrors);
+    }
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>
+          to your account if you already have one
+        </CardDescription>
+        <Error message={"some error"} />
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div className="space-y-1">
+          <Input
+            name="email"
+            type="email"
+            placeholder="Enter Email"
+            onChange={handleInputChange}
+          />
+          {errors.email && <Error message={errors.email} />}
+        </div>
+        <div className="space-y-1">
+          <Input
+            name="password"
+            type="password"
+            placeholder="Enter Password"
+            onChange={handleInputChange}
+          />
+          {errors.password && <Error message={errors.password} />}
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button onClick={handleLogin}>
+          {true ? <PulseLoader size={10} color="#e9ebf0" /> : "Login"}
+        </Button>
+      </CardFooter>
+    </Card>
+  );
 };
 
 export default Login;
