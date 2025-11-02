@@ -5,11 +5,11 @@ import { Outlet } from "react-router-dom";
 const AppLayout = () => {
   return (
     <div>
-      <main className="min-h-screen container mx-auto">
+      <main className="min-h-screen container mx-auto px-4">
         <Header />
-        {/* <Outlet /> */}
+        <Outlet />
       </main>
-      <div p-20 text-white bg-slate-100 mt-5>
+      <div className="p-4 bg-zinc-200 mt-5 w-full flex justify-center">
         made by yashthorat7
       </div>
     </div>

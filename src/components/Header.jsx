@@ -14,12 +14,12 @@ import { Link2, LogOut } from "lucide-react";
 
 const Header = () => {
   const navigate = useNavigate();
-  const user = true;
+  const user = false;
 
   return (
     <nav className="py-4 flex justify-between items-center">
       <Link to="/">
-        <div className="text-3xl font-bold text-zinc-800">SMOLINK</div>
+        <div className="text-3xl font-extrabold text-zinc-800">SMOLINK</div>
       </Link>
       <div>
         {!user ? (
@@ -28,7 +28,7 @@ const Header = () => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src="https://github.com/yashthorat7.png" />
                 <AvatarFallback>PA</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
