@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Copy, Delete, Download, Trash } from 'lucide-react';
+import { deleteUrl } from '@/utils/apiUrls';
+import useFetch from '@/hooks/use-fetch';
+import { PulseLoader } from 'react-spinners';
 
 const LinkCard = (url, fetchUrls) => {
   const websiteUrl = import.meta.env.VITE_WEBSITE;
@@ -16,6 +19,8 @@ const LinkCard = (url, fetchUrls) => {
     anchor.click();
     document.body.removeChild(anchor);
   };
+
+  const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url?.id);
 
   return (
     <div className="flex flex-col gap-5 rounded-lg border bg-gray-900 p-4 md:flex-row">
@@ -46,8 +51,8 @@ const LinkCard = (url, fetchUrls) => {
         <Button variant="ghost" onClick={downloadImage}>
           <Download size={10} />
         </Button>
-        <Button variant="ghost">
-          <Trash size={10} />
+        <Button variant="ghost" onClick={() => fnDelete().then(() => fetchUrls())}>
+          {loadingDelete ? <PulseLoader size={10} /> : <Trash size={10} />}
         </Button>
       </div>
     </div>
