@@ -10,6 +10,7 @@ import { getUrls } from '@/utils/apiUrls';
 import { getClicksForUrls } from '@/utils/apiClicks';
 import { Filter } from 'lucide-react';
 import LinkCard from '@/components/LinkCard';
+import CreateLink from '@/components/CreateLink';
 
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,7 +41,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col gap-8">
       {(loading || loadingClicks) && <PulseLoader size={10} color="#e9ebf0" />}
-      <div classname="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardHeader>
             <CardTitle>Links Created</CardTitle>
@@ -54,14 +55,14 @@ const Dashboard = () => {
             <CardTitle>Total Clicks</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>{clicks?.length}</p>
+            <p>{clicks?.length || 0}</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="flex justify-between">
         <h1 className="text-4xl font-extrabold">My Links</h1>
-        <Button>Create Link</Button>
+        <CreateLink />
       </div>
 
       <div className="relative">

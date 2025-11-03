@@ -6,7 +6,7 @@ import { deleteUrl } from '@/utils/apiUrls';
 import useFetch from '@/hooks/use-fetch';
 import { PulseLoader } from 'react-spinners';
 
-const LinkCard = (url, fetchUrls) => {
+const LinkCard = ({ url, fetchUrls }) => {
   const websiteUrl = import.meta.env.VITE_WEBSITE;
   const downloadImage = () => {
     const imageUrl = url?.qr;
@@ -23,7 +23,7 @@ const LinkCard = (url, fetchUrls) => {
   const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url?.id);
 
   return (
-    <div className="flex flex-col gap-5 rounded-lg border bg-gray-900 p-4 md:flex-row">
+    <div className="flex flex-col gap-5 rounded-lg border bg-white p-4 md:flex-row">
       <img
         src={url?.qr}
         className="h-32 self-start object-contain ring ring-blue-800"
@@ -32,7 +32,7 @@ const LinkCard = (url, fetchUrls) => {
       <Link to={`/link/${url?.id}`} className="flex flex-1 flex-col">
         <span className="cursor-pointer text-3xl font-extrabold hover:underline">{url?.title}</span>
         <span className="cursor-pointer text-2xl font-bold text-blue-800 hover:underline">
-          {websiteUrl}/{url?.custom_url ? url?.custom_url : url.short.url}
+          {websiteUrl}/{url?.custom_url ? url?.custom_url : url?.short?.url}
         </span>
         <span className="flex cursor-pointer items-center gap-1 hover:underline">
           {url?.original_url}
