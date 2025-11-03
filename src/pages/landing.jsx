@@ -20,7 +20,7 @@ const Landing = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="mt-[30vh] mb-10 text-center text-4xl font-extrabold sm:mb-12 sm:text-6xl lg:text-7xl">
+      <h2 className="mt-[25vh] mb-10 text-center text-4xl font-extrabold sm:mb-12 sm:text-6xl lg:text-7xl">
         No Need of Long URLs Now
       </h2>
       <form

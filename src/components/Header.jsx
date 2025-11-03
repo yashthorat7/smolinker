@@ -11,10 +11,16 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { Link2, LogOut } from 'lucide-react';
+import { UrlState } from '@/context';
+import useFetch from '@/hooks/use-fetch';
+import { logout } from '@/utils/apiAuth';
+import { PulseLoader } from 'react-spinners';
 
 const Header = () => {
   const navigate = useNavigate();
-  const user = false;
+
+  const { user, fetchUser } = UrlState();
+  const { loading, fn: fnLogout } = useFetch(logout);
 
   return (
     <nav className="flex items-center justify-between py-4">
@@ -24,16 +30,18 @@ const Header = () => {
       <div>
         {!user ? (
           <Button onClick={() => navigate('/auth')}>Login</Button>
+        ) : loading ? (
+          <PulseLoader className="mb-4" color="#000000" />
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src="https://github.com/yashthorat7.png" />
+                <AvatarImage src={user?.user_metadata?.profile_pic} className="object-fill" />
                 <AvatarFallback>PA</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Yash Thorat</DropdownMenuLabel>
+              <DropdownMenuLabel>{user?.user_metadata?.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link2 className="mr-2 h-4 w-4" />
@@ -41,7 +49,16 @@ const Header = () => {
               </DropdownMenuItem>
               <DropdownMenuItem className="text-red-400">
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Logout</span>
+                <span
+                  onClick={() => {
+                    fnLogout().then(() => {
+                      fetchUser();
+                      navigate('/');
+                    });
+                  }}
+                >
+                  Logout
+                </span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
