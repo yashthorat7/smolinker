@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   CardAction,
@@ -7,29 +7,29 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { PulseLoader } from "react-spinners";
-import Error from "./error";
-import * as Yup from "yup";
-import { signup } from "@/utils/apiAuth";
-import useFetch from "@/hooks/use-fetch";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { UrlState } from "@/context";
+} from './ui/card';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
+import { PulseLoader } from 'react-spinners';
+import Error from './error';
+import * as Yup from 'yup';
+import { signup } from '@/utils/apiAuth';
+import useFetch from '@/hooks/use-fetch';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { UrlState } from '@/context';
 
 const Signup = () => {
   const [errors, setErrors] = useState([]);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
     profile_pic: null,
   });
 
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
-  const longLink = searchParams.get("createNew");
+  const longLink = searchParams.get('createNew');
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -44,7 +44,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (error === null && data) {
-      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
+      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ''}`);
       fetchUser();
     }
   }, [error, loading]);
@@ -53,14 +53,12 @@ const Signup = () => {
     setErrors([]);
     try {
       const schema = Yup.object().shape({
-        name: Yup.string().required("Name is required"),
-        email: Yup.string()
-          .email("Invalid Email")
-          .required("Email is Required"),
+        name: Yup.string().required('Name is required'),
+        email: Yup.string().email('Invalid Email').required('Email is Required'),
         password: Yup.string()
-          .min(6, "Password must be at least 6 characters")
-          .required("Password is Required"),
-        profile_pic: Yup.mixed().required("Profile picture is required"),
+          .min(6, 'Password must be at least 6 characters')
+          .required('Password is Required'),
+        profile_pic: Yup.mixed().required('Profile picture is required'),
       });
 
       await schema.validate(formData, { abortEarly: false });
@@ -80,28 +78,16 @@ const Signup = () => {
     <Card>
       <CardHeader>
         <CardTitle>Signup</CardTitle>
-        <CardDescription>
-          create a new account if you haven&rsquo;t already
-        </CardDescription>
+        <CardDescription>create a new account if you haven&rsquo;t already</CardDescription>
         {error && <Error message={error.message} />}
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="space-y-1">
-          <Input
-            name="name"
-            type="text"
-            placeholder="Enter Name"
-            onChange={handleInputChange}
-          />
+          <Input name="name" type="text" placeholder="Enter Name" onChange={handleInputChange} />
           {errors.name && <Error message={errors.name} />}
         </div>
         <div className="space-y-1">
-          <Input
-            name="email"
-            type="email"
-            placeholder="Enter Email"
-            onChange={handleInputChange}
-          />
+          <Input name="email" type="email" placeholder="Enter Email" onChange={handleInputChange} />
           {errors.email && <Error message={errors.email} />}
         </div>
         <div className="space-y-1">
@@ -114,18 +100,13 @@ const Signup = () => {
           {errors.password && <Error message={errors.password} />}
         </div>
         <div className="space-y-1">
-          <Input
-            name="profile_pic"
-            type="file"
-            accept="image/*"
-            onChange={handleInputChange}
-          />
+          <Input name="profile_pic" type="file" accept="image/*" onChange={handleInputChange} />
           {errors.profile_pic && <Error message={errors.profile_pic} />}
         </div>
       </CardContent>
       <CardFooter>
         <Button onClick={handleSignup}>
-          {loading ? <PulseLoader size={10} color="#e9ebf0" /> : "Signup"}
+          {loading ? <PulseLoader size={10} color="#e9ebf0" /> : 'Signup'}
         </Button>
       </CardFooter>
     </Card>

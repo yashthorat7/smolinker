@@ -1,7 +1,7 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from './ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,21 +9,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Link2, LogOut } from "lucide-react";
+} from './ui/dropdown-menu';
+import { Link2, LogOut } from 'lucide-react';
 
 const Header = () => {
   const navigate = useNavigate();
   const user = false;
 
   return (
-    <nav className="py-4 flex justify-between items-center">
+    <nav className="flex items-center justify-between py-4">
       <Link to="/">
         <div className="text-3xl font-extrabold text-zinc-800">SMOLINK</div>
       </Link>
       <div>
         {!user ? (
-          <Button onClick={() => navigate("/auth")}>Login</Button>
+          <Button onClick={() => navigate('/auth')}>Login</Button>
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger>
