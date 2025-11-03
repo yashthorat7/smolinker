@@ -44,11 +44,13 @@ const Header = () => {
               <DropdownMenuLabel>{user?.user_metadata?.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link2 className="mr-2 h-4 w-4" />
-                My Links
+                <Link to="/dashboard" className="flex">
+                  <Link2 className="mr-2 h-4 w-4" />
+                  My Links
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="text-red-400">
-                <LogOut className="mr-2 h-4 w-4" />
+                <LogOut className="mr-0 h-4 w-4" />
                 <span
                   onClick={() => {
                     fnLogout().then(() => {
