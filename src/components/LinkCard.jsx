@@ -1,10 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Copy, Delete, Download } from 'lucide-react';
+import { Copy, Delete, Download, Trash } from 'lucide-react';
 
 const LinkCard = (url, fetchUrls) => {
   const websiteUrl = import.meta.env.VITE_WEBSITE;
+  const downloadImage = () => {
+    const imageUrl = url?.qr;
+    const fileName = url?.title;
+    const anchor = document.createElement('a');
+    anchor.href = imageUrl;
+    anchor.download = fileName;
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  };
 
   return (
     <div className="flex flex-col gap-5 rounded-lg border bg-gray-900 p-4 md:flex-row">
@@ -32,11 +43,11 @@ const LinkCard = (url, fetchUrls) => {
         >
           <Copy size={10} />
         </Button>
-        <Button variant="ghost">
+        <Button variant="ghost" onClick={downloadImage}>
           <Download size={10} />
         </Button>
         <Button variant="ghost">
-          <Delete size={10} />
+          <Trash size={10} />
         </Button>
       </div>
     </div>
