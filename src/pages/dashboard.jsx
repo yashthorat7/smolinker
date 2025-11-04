@@ -55,7 +55,7 @@ const Dashboard = () => {
             <CardTitle>Total Clicks</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>{clicks?.length || 0}</p>
+            <p>{clicks?.length}</p>
           </CardContent>
         </Card>
       </div>

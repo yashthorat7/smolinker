@@ -26,8 +26,8 @@ export async function createUrl({ title, longUrl, customUrl, user_id }, qrcode) 
   const { error: storageError } = await supabase.storage.from('qrs').upload(fileName, qrcode);
 
   if (storageError) throw new Error(storageError.message);
-
-  const qr = `${supabaseUrl}/storage/v1/object/pbulic/qrs/${fileName}`;
+  console.log('fileName', fileName);
+  const qr = `${supabaseUrl}/storage/v1/object/public/qrs/${fileName}`;
 
   const { data, error } = await supabase
     .from('urls')
@@ -46,6 +46,20 @@ export async function createUrl({ title, longUrl, customUrl, user_id }, qrcode) 
   if (error) {
     console.error(error.message);
     throw new Error('Error creating short URL');
+  }
+  return data;
+}
+
+export async function getLongUrl(id) {
+  const { data, error } = await supabase
+    .from('urls')
+    .select('id, original_url')
+    .or(`short_url.eq.${id},custom_url.eq ${id}`)
+    .single();
+
+  if (error) {
+    console.error(error.message);
+    throw new Error('Error fetching short link');
   }
   return data;
 }
