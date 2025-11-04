@@ -52,6 +52,8 @@ const Link = () => {
     link = url?.custom_url ? url?.custom_url : url.short_url;
   }
 
+  const websiteUrl = import.meta.env.VITE_WEBSITE_URL;
+
   return (
     <>
       {(loading || loadingStats) && <PulseLoader className="mb-4" size={10} color="black" />}
@@ -61,11 +63,11 @@ const Link = () => {
             {url?.title}
           </span>
           <a
-            href={`https://trimrr.in/${link}`}
+            href={`${websiteUrl}/${link}`}
             target="_blank"
             className="cursor-pointer text-3xl font-bold text-blue-400 hover:underline sm:text-4xl"
           >
-            https://trimrr.in/{link}
+            {websiteUrl}/{link}
           </a>
           <a
             href={url?.original_url}
@@ -81,7 +83,7 @@ const Link = () => {
           <div className="flex gap-2">
             <Button
               variant="ghost"
-              onClick={() => navigator.clipboard.writeText(`https://trimrr.in/${link}`)}
+              onClick={() => navigator.clipboard.writeText(`${websiteUrl}/${link}`)}
             >
               <Copy />
             </Button>
