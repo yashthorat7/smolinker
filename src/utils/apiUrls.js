@@ -1,4 +1,3 @@
-import { UAParser } from 'ua-parser-js';
 import supabase, { supabaseUrl } from './supabase';
 
 export async function getUrls(user_id) {
@@ -55,7 +54,7 @@ export async function getLongUrl(id) {
   const { data, error } = await supabase
     .from('urls')
     .select('id, original_url')
-    .or(`short_url.eq.${id},custom_url.eq ${id}`)
+    .or(`short_url.eq.${id},custom_url.eq.${id}`)
     .single();
 
   if (error) {
@@ -65,7 +64,7 @@ export async function getLongUrl(id) {
   return data;
 }
 
-export async function getUrl(id, user_id) {
+export async function getUrl({ id, user_id }) {
   const { data, error } = await supabase
     .from('urls')
     .select('*')
@@ -74,8 +73,9 @@ export async function getUrl(id, user_id) {
     .single();
 
   if (error) {
-    console.error(error.message);
-    throw new Error('Url URL not found');
+    console.error(error);
+    throw new Error('Short Url not found');
   }
+
   return data;
 }

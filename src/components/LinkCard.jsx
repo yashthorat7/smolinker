@@ -25,17 +25,13 @@ const LinkCard = ({ url, fetchUrls }) => {
 
   return (
     <div className="flex flex-col gap-5 rounded-lg border bg-white p-4 md:flex-row">
-      <img
-        src={url?.qr}
-        className="h-32 self-start object-contain ring ring-blue-800"
-        alt="qr-code"
-      />
-      <Link to={`/link/${url?.id}`} className="flex flex-1 flex-col">
+      <img src={url?.qr} className="h-32 self-start object-contain" alt="qr-code" />
+      <Link to={`/link/${url?.id}`} className="flex min-w-0 flex-1 flex-col">
         <span className="cursor-pointer text-3xl font-extrabold hover:underline">{url?.title}</span>
         <span className="cursor-pointer text-2xl font-bold text-blue-800 hover:underline">
           {websiteUrl}/{url?.custom_url ? url?.custom_url : url.short_url}
         </span>
-        <span className="flex cursor-pointer items-center gap-1 hover:underline">
+        <span className="line-clamp-1 flex cursor-pointer items-center gap-1 truncate text-nowrap hover:underline">
           {url?.original_url}
         </span>
         <span className="flex flex-1 items-end text-sm font-extralight">

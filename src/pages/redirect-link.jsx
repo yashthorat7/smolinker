@@ -1,5 +1,6 @@
 import useFetch from '@/hooks/use-fetch';
-import { getLongUrl, storeClicks } from '@/utils/apiUrls';
+import { getLongUrl } from '@/utils/apiUrls';
+import { storeClicks } from '@/utils/apiClicks';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
