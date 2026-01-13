@@ -38,7 +38,6 @@ const Landing = () => {
           Shortify!
         </Button>
       </form>
-      {/* <img src="banner.jpg" alt="banner" className="w-full my-11 md:px-11" /> */}
       <Accordion type="multiple" collapsible className="mt-50 w-full md:px-11">
         <AccordionItem value="item-1">
           <AccordionTrigger>How does the Smolink URL shortener works?</AccordionTrigger>
