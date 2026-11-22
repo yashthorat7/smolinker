@@ -1,54 +1,23 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from '@/context/auth-context';
 import AppLayout from './layouts/app-layout';
 import Landing from './pages/landing';
-import Auth from './pages/auth';
-import Dashboard from './pages/dashboard';
-import Link from './pages/link';
 import RedirectLink from './pages/redirect-link';
-import UrlProvider from './context';
-import RequireAuth from './components/RequireAuth';
-
-const router = createBrowserRouter([
-  {
-    element: <AppLayout />,
-    children: [
-      {
-        path: '/auth',
-        element: <Auth />,
-      },
-      {
-        path: '/dashboard',
-        element: (
-          <RequireAuth>
-            <Dashboard />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: '/',
-        element: <Landing />,
-      },
-      {
-        path: '/link/:id',
-        element: (
-          <RequireAuth>
-            <Link />
-          </RequireAuth>
-        ),
-      },
-      {
-        path: '/:id',
-        element: <RedirectLink />,
-      },
-    ],
-  },
-]);
+import Auth from './pages/auth';
 
 const App = () => {
   return (
-    <UrlProvider>
-      <RouterProvider router={router} />
-    </UrlProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Landing />} />
+            <Route path="/auth" element={<Auth />} />
+          </Route>
+          <Route path="/:id" element={<RedirectLink />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 

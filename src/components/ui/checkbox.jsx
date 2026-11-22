@@ -1,29 +1,36 @@
-'use client';
-
-import * as React from 'react';
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
-import { CheckIcon } from 'lucide-react';
-
-import { cn } from '@/lib/utils';
-
-function Checkbox({ className, ...props }) {
+const Checkbox = ({
+  checked = false,
+  onChange,
+  className = '',
+  title,
+  ...props
+}) => {
   return (
-    <CheckboxPrimitive.Root
-      data-slot="checkbox"
-      className={cn(
-        'peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
-        className,
-      )}
-      {...props}
+    <label 
+      className={`inline-flex items-center justify-center cursor-pointer select-none ${className}`}
+      title={title}
+      onClick={(e) => e.stopPropagation()}
     >
-      <CheckboxPrimitive.Indicator
-        data-slot="checkbox-indicator"
-        className="grid place-content-center text-current transition-none"
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="sr-only"
+        {...props}
+      />
+      <div 
+        className={`w-3.5 h-3.5 rounded-[3px] border transition-all duration-150 flex items-center justify-center ${
+          checked 
+            ? 'bg-orange-500 border-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.3)]' 
+            : 'border-white/20 bg-zinc-950/70 hover:border-zinc-500'
+        }`}
       >
-        <CheckIcon className="size-3.5" />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
+        {checked && (
+          <div className="w-1.5 h-1.5 bg-white rounded-[1px] transition-transform duration-150 scale-100" />
+        )}
+      </div>
+    </label>
   );
-}
+};
 
-export { Checkbox };
+export default Checkbox;
